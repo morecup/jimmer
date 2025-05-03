@@ -466,14 +466,14 @@ class ClientProcessor(
             throw JsonValueTypeChangeException(it)
         }
 //        logger.info("type:${type}")
-        if (typeRef.typeName == TypeName.OBJECT) {
-            return
-            throw UnambiguousTypeException(
-                ancestorSource(ApiOperationImpl::class.java, ApiParameterImpl::class.java),
-                ancestorSource(),
-                "Client API system does not accept unambiguous type `java.lang.Object`"
-            )
-        }
+//        if (typeRef.typeName == TypeName.OBJECT) {
+//            return
+//            throw UnambiguousTypeException(
+//                ancestorSource(ApiOperationImpl::class.java, ApiParameterImpl::class.java),
+//                ancestorSource(),
+//                "Client API system does not accept unambiguous type `java.lang.Object`"
+//            )
+//        }
         for (argument in type.arguments) {
 //            logger.info("argument:$argument")
 //            logger.info("argumentType:${argument.type}")
