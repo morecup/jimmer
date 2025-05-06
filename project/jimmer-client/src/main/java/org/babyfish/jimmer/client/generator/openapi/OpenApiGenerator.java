@@ -149,11 +149,13 @@ public class OpenApiGenerator {
 
     private void generateOperation(Operation operation, YmlWriter writer) {
         writer.description(Description.of(Doc.valueOf(operation.getDoc()), true));
-        writer.list("tags", () -> {
-            writer.listItem(() -> {
-                writer.code(serviceNameManager.get(operation.getDeclaringService()));
+        if (properties.isGenerateTag()){
+            writer.list("tags", () -> {
+                writer.listItem(() -> {
+                    writer.code(serviceNameManager.get(operation.getDeclaringService()));
+                });
             });
-        });
+        }
         writer.prop("operationId", operationNameManager.get(operation));
         List<Parameter> httpParameters = operation.getParameters().stream()
                 .filter(it -> !it.isRequestBody() && it.getRequestPart() == null)
