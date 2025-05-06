@@ -3,6 +3,7 @@ package org.babyfish.jimmer.client.generator.openapi;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.io.StringWriter;
 import java.util.*;
@@ -19,11 +20,14 @@ public class OpenApiProperties {
 
     private final Components components;
 
+    private final boolean generateTag;
+
     public OpenApiProperties(
             Info info, 
             List<Server> servers, 
             List<Map<String, List<String>>> securities, 
-            Components components
+            Components components,
+            @DefaultValue("true") boolean generateTag
     ) {
         this.info = info;
         this.servers = servers != null && !servers.isEmpty() ?
@@ -33,6 +37,7 @@ public class OpenApiProperties {
                 Collections.unmodifiableList(securities) :
                 Collections.emptyList();
         this.components = components;
+        this.generateTag = generateTag;
     }
 
     public Info getInfo() {
@@ -49,6 +54,10 @@ public class OpenApiProperties {
 
     public Components getComponents() {
         return components;
+    }
+
+    public boolean isGenerateTag() {
+        return generateTag;
     }
 
     public static abstract class Node {
@@ -580,13 +589,20 @@ public class OpenApiProperties {
 
         private Components components;
 
+        private boolean generateTag;
+
         Builder(OpenApiProperties properties) {
             if (properties != null) {
                 this.info = properties.getInfo();
                 this.servers = properties.getServers();
                 this.securities = properties.getSecurities();
                 this.components = properties.getComponents();
+                this.generateTag = properties.isGenerateTag();
             }
+        }
+
+        public void setGenerateTag(boolean generateTag) {
+            this.generateTag = generateTag;
         }
 
         public Builder setInfo(Info info) {
@@ -614,7 +630,8 @@ public class OpenApiProperties {
                     info,
                     servers,
                     securities,
-                    components
+                    components,
+                    generateTag
             );
         }
     }
