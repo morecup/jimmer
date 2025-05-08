@@ -312,7 +312,7 @@ public class OpenApiGenerator {
             } else {
                 throw new AssertionError("Internal bug: more virtual type need to be processed");
             }
-        } else  {
+        } else if (type instanceof SimpleType) {
             SimpleType simpleType = (SimpleType) type;
             Class<?> javaType = simpleType.getJavaType();
             if (boolean.class == javaType) {
@@ -344,6 +344,8 @@ public class OpenApiGenerator {
             } else {
                 writer.prop("type", "string");
             }
+        }else{
+            writer.prop("type", "object");
         }
     }
 
