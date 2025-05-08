@@ -139,7 +139,15 @@ class TypeContext {
             try {
                 return Class.forName(typeName.toString(true), true, Thread.currentThread().getContextClassLoader());
             } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
+                String jvmClassName = typeName.toString(true)
+                        .replace("kotlin.collections.", "java.util.")
+                        .replace("MutableMap.MutableEntry", "Map$Entry") // 注意内部类的 $ 符号
+                        .replace("Mutable", ""); // 处理其他可变类型
+                try {
+                    return Class.forName(jvmClassName, true, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
