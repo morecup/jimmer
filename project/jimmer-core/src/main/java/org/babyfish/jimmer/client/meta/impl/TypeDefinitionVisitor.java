@@ -51,7 +51,7 @@ public class TypeDefinitionVisitor<S> implements AstNodeVisitor<S> {
             }
             List<String> finalGroups = groups;
             builder.definition(source, typeName, definition -> {
-                if (builder.getThisModuleTypeNameList().contains(typeName)) {
+                if (builder.getThisModuleTypeNameList() != null && builder.getThisModuleTypeNameList().contains(typeName)) {
                     definition.setRealModuleType(true);
                 }
                 typeDefinitionMap.put(typeName, definition);
@@ -104,7 +104,7 @@ public class TypeDefinitionVisitor<S> implements AstNodeVisitor<S> {
             }
             List<String> finalGroups = groups;
             builder.definition(source, typeName, definition -> {
-                if (builder.getThisModuleTypeNameList().contains(typeName)) {
+                if (builder.getThisModuleTypeNameList() != null && builder.getThisModuleTypeNameList().contains(typeName)) {
                     definition.setRealModuleType(true);
                 }
                 typeDefinitionMap.put(typeName, definition);
